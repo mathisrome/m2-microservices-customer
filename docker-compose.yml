@@ -1,0 +1,62 @@
+services:
+  mariadb:
+    image: mariadb:11.1.2
+    restart: unless-stopped
+    volumes:
+      - ./infra/volumes/dev/database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3309:3306"
+    networks:
+      - nw.backend
+
+  symfony-php:
+    build:
+      context: ./infra/dev/symfony-php
+    volumes:
+      - ./infra/volumes/dev/composer:/root/.composer
+      - ./infra/dev/symfony-php/project.ini:/usr/local/etc/php/conf.d/project.ini:ro
+      - ./api:/var/www/api
+    environment:
+      APP_ENV: dev
+    depends_on:
+      - mariadb
+    tty: true
+    networks:
+      - nw.backend
+
+  symfony-nginx:
+    image: nginx:latest
+    volumes:
+      - ./infra/volumes/dev/logs/nginx:/var/log/nginx
+      - ./infra/dev/symfony-nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./api:/var/www/api
+    ports:
+      - "83:80"
+    depends_on:
+      - symfony-php
+    tty: true
+    networks:
+      - nw.microservices
+      - nw.backend
+      - nw.frontend
+    container_name: customer-symfony-nginx
+
+
+  vite:
+    build:
+      context: ./infra/dev/vite
+    ports:
+      - 5176:5173
+    command: sh -c "npm install && npm run dev"
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - nw.frontend
+
+networks:
+  nw.microservices:
+    external: true
+  nw.frontend:
+  nw.backend:
