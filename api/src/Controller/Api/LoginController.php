@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\AccessToken;
 use App\Entity\User;
 use App\Service\JwtService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,8 @@ class LoginController extends AbstractController
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function index(
         #[CurrentUser] ?User $customer,
-        JwtService           $jwtService
+        JwtService             $jwtService,
+        EntityManagerInterface $em
     ): JsonResponse
     {
         if (null === $customer) {
@@ -43,6 +45,8 @@ class LoginController extends AbstractController
         $accessToken->setIssuedAt($iat);
 
         $customer->addAccessToken($accessToken);
+
+        $em->flush();
 
         return $this->json($token);
     }

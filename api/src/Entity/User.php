@@ -43,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, AccessToken>
      */
-    #[ORM\OneToMany(targetEntity: AccessToken::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: AccessToken::class, mappedBy: 'user', cascade: ["persist"])]
     private Collection $accessTokens;
 
     public function __construct()
