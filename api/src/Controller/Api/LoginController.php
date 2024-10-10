@@ -35,7 +35,8 @@ class LoginController extends AbstractController
             "firstName" => $customer->getFirstName(),
             "lastName" => $customer->getLastName(),
             "email" => $customer->getEmail(),
-            "iat" => $iat
+            "iat" => $iat,
+            "exp" => $iat->modify("+1 hour")
         ];
 
         $token = $jwtService->createToken($payload);
