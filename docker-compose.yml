@@ -24,6 +24,7 @@ services:
       - mariadb
     tty: true
     networks:
+      - nw.microservices
       - nw.backend
 
   symfony-nginx:

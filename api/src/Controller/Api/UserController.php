@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Message\UserMessage;
 use App\Model\Dto\UserDto;
 use App\Model\Query\UserQuery;
 use App\Repository\UserRepository;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -101,7 +103,8 @@ class UserController extends AbstractController
         #[MapRequestPayload(validationGroups: ["user:update"])] UserDto $customerDto,
         UserManager                                                     $customerManager,
         EntityManagerInterface                                          $em,
-        ValidatorInterface                                              $validator
+        ValidatorInterface                                              $validator,
+        MessageBusInterface $messageBus
     ): JsonResponse
     {
         $customer = $customerManager->dtoToEntity($customerDto, $customer);
@@ -114,6 +117,14 @@ class UserController extends AbstractController
         if (count($violations) > 0) {
             return $this->json($violations, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        $messageBus->dispatch(
+            new UserMessage(
+                $customer->getEmail(),
+                $customer->getFirstName(),
+                $customer->getLastName(),
+            )
+        );
 
         $em->flush();
 
