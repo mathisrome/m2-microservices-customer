@@ -12,7 +12,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -70,7 +69,8 @@ class UserController extends AbstractController
         #[MapRequestPayload(validationGroups: ["user:create"])] UserDto $customerDto,
         UserManager                                                     $customerManager,
         EntityManagerInterface                                          $em,
-        ValidatorInterface                                              $validator
+        ValidatorInterface  $validator,
+        MessageBusInterface $messageBus
     ): JsonResponse
     {
         $customer = $customerManager->dtoToEntity($customerDto);
@@ -83,6 +83,15 @@ class UserController extends AbstractController
         if (count($violations) > 0) {
             return $this->json($violations, Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+
+        $messageBus->dispatch(
+            new UserMessage(
+                $customer->getUuid()->toRfc4122(),
+                $customer->getEmail(),
+                $customer->getFirstName(),
+                $customer->getLastName(),
+            )
+        );
 
         $em->persist($customer);
         $em->flush();
@@ -120,6 +129,7 @@ class UserController extends AbstractController
 
         $messageBus->dispatch(
             new UserMessage(
+                $customer->getUuid()->toRfc4122(),
                 $customer->getEmail(),
                 $customer->getFirstName(),
                 $customer->getLastName(),
