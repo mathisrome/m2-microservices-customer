@@ -5,12 +5,12 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            order_users: '%env(MESSENGER_ORDER_USERS_TRANSPORT_DSN)%'
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
         routing:
-            App\Message\UserMessage: async
+            App\Message\UserMessage: order_users
 
 # when@test:
 #    framework:

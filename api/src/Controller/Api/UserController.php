@@ -159,4 +159,19 @@ class UserController extends AbstractController
 
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/profile', name: 'profile', methods: ['GET'])]
+    public function profile(
+        UserManager $customerManager
+    ): JsonResponse
+    {
+        return $this->json(
+            $customerManager->entityToDto($this->getUser()),
+            context: [
+                "groups" => [
+                    "user:detail"
+                ]
+            ]
+        );
+    }
 }
