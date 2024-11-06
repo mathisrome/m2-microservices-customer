@@ -35,6 +35,7 @@ class LoginController extends AbstractController
             "firstName" => $customer->getFirstName(),
             "lastName" => $customer->getLastName(),
             "email" => $customer->getEmail(),
+            "uuid" => $customer->getUuid(),
             "iat" => $iat,
             "exp" => $iat->modify("+1 hour")
         ];

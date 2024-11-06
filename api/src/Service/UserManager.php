@@ -22,6 +22,7 @@ class UserManager
         $dto->lastName = $user->getLastName();
         $dto->email = $user->getEmail();
         $dto->role = $user->getRoles()[0];
+        $dto->uuid = $user->getUuid()->toRfc4122();
 
         return $dto;
     }

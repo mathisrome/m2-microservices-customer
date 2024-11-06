@@ -1,5 +1,5 @@
 services:
-  mariadb:
+  customer-mariadb:
     image: mariadb:11.1.2
     restart: unless-stopped
     volumes:
@@ -11,7 +11,7 @@ services:
     networks:
       - nw.backend
 
-  symfony-php:
+  customer-symfony-php:
     build:
       context: ./infra/dev/symfony-php
     volumes:
@@ -21,13 +21,13 @@ services:
     environment:
       APP_ENV: dev
     depends_on:
-      - mariadb
+      - customer-mariadb
     tty: true
     networks:
       - nw.microservices
       - nw.backend
 
-  symfony-nginx:
+  customer-symfony-nginx:
     image: nginx:latest
     volumes:
       - ./infra/volumes/dev/logs/nginx:/var/log/nginx
@@ -36,28 +36,14 @@ services:
     ports:
       - "83:80"
     depends_on:
-      - symfony-php
+      - customer-symfony-php
     tty: true
     networks:
       - nw.microservices
       - nw.backend
-      - nw.frontend
     container_name: customer-symfony-nginx
-
-
-  vite:
-    build:
-      context: ./infra/dev/vite
-    ports:
-      - 5176:5173
-    command: sh -c "npm install && npm run dev"
-    volumes:
-      - ./app:/var/www/app
-    networks:
-      - nw.frontend
 
 networks:
   nw.microservices:
     external: true
-  nw.frontend:
   nw.backend:

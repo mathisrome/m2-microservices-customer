@@ -23,6 +23,9 @@ class UserDto
     #[Groups(["user:list", "user:detail"])]
     public string $lastName;
 
+    #[Groups(["user:list", "user:detail"])]
+    public string $uuid;
+
     #[Assert\NotBlank(groups: ["user:create"])]
     public ?string $password = null;
 

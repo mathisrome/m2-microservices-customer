@@ -48,7 +48,7 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/{id}', name: 'detail', methods: ['GET'])]
+    #[Route('/{uuid}', name: 'detail', methods: ['GET'])]
     public function detail(
         User        $customer,
         UserManager $customerManager
@@ -106,7 +106,7 @@ class UserController extends AbstractController
         );
     }
 
-    #[Route('/{id}', name: 'update', methods: ['PUT'])]
+    #[Route('/{uuid}', name: 'update', methods: ['PUT'])]
     public function update(
         User                                                            $customer,
         #[MapRequestPayload(validationGroups: ["user:update"])] UserDto $customerDto,
@@ -158,20 +158,5 @@ class UserController extends AbstractController
         $em->flush();
 
         return new Response(null, Response::HTTP_NO_CONTENT);
-    }
-
-    #[Route('/profile', name: 'profile', methods: ['GET'])]
-    public function profile(
-        UserManager $customerManager
-    ): JsonResponse
-    {
-        return $this->json(
-            $customerManager->entityToDto($this->getUser()),
-            context: [
-                "groups" => [
-                    "user:detail"
-                ]
-            ]
-        );
     }
 }
