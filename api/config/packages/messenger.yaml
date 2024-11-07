@@ -7,6 +7,7 @@ framework:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             order_users: '%env(MESSENGER_ORDER_USERS_TRANSPORT_DSN)%'
             kitchen_users: '%env(MESSENGER_KITCHEN_USERS_TRANSPORT_DSN)%'
+            delivery_users: '%env(MESSENGER_DELIVERY_USERS_TRANSPORT_DSN)%'
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
