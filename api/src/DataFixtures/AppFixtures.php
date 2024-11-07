@@ -26,6 +26,7 @@ class AppFixtures extends Fixture
         $mathis->setFirstName("Mathis");
         $mathis->setLastName("Rome");
         $mathis->setPassword($this->passwordHasher->hashPassword($mathis, "mathis"));
+        $mathis->setPhoneNumber('0601020304');
         $manager->persist($mathis);
         $this->messageBus->dispatch(
             new UserMessage(
@@ -42,6 +43,7 @@ class AppFixtures extends Fixture
         $quentin->setFirstName("Quentin");
         $quentin->setLastName("Somveille");
         $quentin->setPassword($this->passwordHasher->hashPassword($quentin, "quentin"));
+        $quentin->setPhoneNumber('0601020304');
         $manager->persist($quentin);
         $this->messageBus->dispatch(
             new UserMessage(
@@ -58,6 +60,7 @@ class AppFixtures extends Fixture
         $kenza->setFirstName("Kenza");
         $kenza->setLastName("Schuler");
         $kenza->setPassword($this->passwordHasher->hashPassword($kenza, "kenza"));
+        $kenza->setPhoneNumber('0601020304');
         $manager->persist($kenza);
         $this->messageBus->dispatch(
             new UserMessage(
@@ -74,6 +77,7 @@ class AppFixtures extends Fixture
         $getoar->setFirstName("Getoar");
         $getoar->setLastName("Limani");
         $getoar->setPassword($this->passwordHasher->hashPassword($getoar, "getoar"));
+        $getoar->setPhoneNumber('0601020304');
         $manager->persist($getoar);
         $this->messageBus->dispatch(
             new UserMessage(

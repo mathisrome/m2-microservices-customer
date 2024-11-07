@@ -31,4 +31,7 @@ class UserDto
 
     #[Assert\NotBlank(groups: ["user:create", "user:update"])]
     public ?string $role = null;
+
+    #[Assert\NotBlank(groups: ["user:create", "user:update"])]
+    public ?string $phoneNumber = null;
 }

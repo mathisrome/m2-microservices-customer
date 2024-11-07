@@ -23,6 +23,7 @@ class UserManager
         $dto->email = $user->getEmail();
         $dto->role = $user->getRoles()[0];
         $dto->uuid = $user->getUuid()->toRfc4122();
+        $dto->phoneNumber = $user->getPhoneNumber();
 
         return $dto;
     }
@@ -37,6 +38,7 @@ class UserManager
         $user->setFirstName($userDto->firstName);
         $user->setLastName($userDto->lastName);
         $user->setRoles([$userDto->role]);
+        $user->setPhoneNumber($userDto->phoneNumber);
 
         if ($userDto->password !== null) {
             $user->setPassword($this->passwordHasher->hashPassword($user, $userDto->password));

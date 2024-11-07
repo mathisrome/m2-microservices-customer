@@ -9,6 +9,7 @@ final class UserMessage
         public readonly string $email,
         public readonly string $firstName,
         public readonly string $lastName,
+        public readonly string $phoneNumber,
     )
     {
     }

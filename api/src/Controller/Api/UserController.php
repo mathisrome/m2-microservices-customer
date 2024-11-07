@@ -90,6 +90,7 @@ class UserController extends AbstractController
                 $customer->getEmail(),
                 $customer->getFirstName(),
                 $customer->getLastName(),
+                $customer->getPhoneNumber()
             )
         );
 
@@ -133,6 +134,7 @@ class UserController extends AbstractController
                 $customer->getEmail(),
                 $customer->getFirstName(),
                 $customer->getLastName(),
+                $customer->getPhoneNumber()
             )
         );
 
