@@ -34,6 +34,7 @@ class AppFixtures extends Fixture
                 $mathis->getEmail(),
                 $mathis->getFirstName(),
                 $mathis->getLastName(),
+                $mathis->getPhoneNumber()
             )
         );
 
@@ -51,6 +52,7 @@ class AppFixtures extends Fixture
                 $quentin->getEmail(),
                 $quentin->getFirstName(),
                 $quentin->getLastName(),
+                $quentin->getPhoneNumber()
             )
         );
 
@@ -68,6 +70,7 @@ class AppFixtures extends Fixture
                 $kenza->getEmail(),
                 $kenza->getFirstName(),
                 $kenza->getLastName(),
+                $kenza->getPhoneNumber(),
             )
         );
 
@@ -85,6 +88,7 @@ class AppFixtures extends Fixture
                 $getoar->getEmail(),
                 $getoar->getFirstName(),
                 $getoar->getLastName(),
+                $getoar->getPhoneNumber(),
             )
         );
 
