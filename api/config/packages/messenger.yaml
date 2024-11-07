@@ -12,7 +12,7 @@ framework:
             # sync: 'sync://'
 
         routing:
-            App\Message\UserMessage: [order_users, kitchen_users]
+            App\Message\UserMessage: [order_users, kitchen_users, delivery_users]
 
 # when@test:
 #    framework:
